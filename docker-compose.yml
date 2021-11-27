@@ -1,0 +1,26 @@
+version: '3.7'
+services:
+  blog:
+    image: blog
+    container_name: personal-blog
+    build:
+      dockerfile: Dockerfile
+      context: .
+    restart: always
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.blog.rule=Host(`blog.msmetko.xyz`)"
+      - "traefik.http.routers.blog.entrypoints=websecure"
+      - "traefik.http.routers.blog.tls=true"
+      - "traefik.http.routers.blog.tls.certresolver=le"
+      - "traefik.http.services.blog.loadbalancer.server.scheme=http"
+      - "traefik.http.services.blog.loadbalancer.server.port=80"
+      - "traefik.docker.network=traefik_default"
+    ports:
+      - "2357:3000"
+    networks:
+      - traefik_default
+
+networks:
+  traefik_default:
+    external: true
