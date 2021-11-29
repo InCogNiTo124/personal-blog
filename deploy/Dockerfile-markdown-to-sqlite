@@ -1,0 +1,5 @@
+FROM python:alpine
+
+WORKDIR /blog
+RUN ["pip", "install", "markdown", "htmlmin", "pygments"]
+ENTRYPOINT ["python3", "deploy/markdown-to-sqlite.py"]
