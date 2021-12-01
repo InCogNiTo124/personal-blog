@@ -8,7 +8,12 @@ tags:
   - tag4
 ---
 
+[TOC]
+
 # My first blogpost
+
+:rocket:
+
 
 ## How is this made
 
@@ -21,14 +26,13 @@ This I want to do:
 1. deploy this
 1. preferably in python
 
+https://msmetko.xyz
+
 **rather cool, dontya think**
 
 `This is monospaced`
 
 This is another paragraph.[^1]
-
->>> print('Is this Python code?')
-True
 
 
 ```
@@ -36,12 +40,12 @@ More code? perhaps?
 $ echo $SHELL
 ```
 
-[^1] Yup, it's *monospaced af*
+[^1]: Yup, it's *monospaced af*
 
 ### Tables?
-[#tablecounter Table @mytable: some interesting stuff]
-[#tablecounter Table @mytable: some more interesting stuff]
-
+| omg | its a table|
+|-----|------------|
+|or is it|---|
 
 ```math
 x^2

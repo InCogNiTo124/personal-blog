@@ -1,4 +1,5 @@
 import argparse
+import markdown_katex
 import markdown
 import sqlite3
 import htmlmin
@@ -19,9 +20,9 @@ def ensure_database():
 
 def write_markdown_to_db(file: Path, db_con):
     content = file.read_text()
-    md = markdown.Markdown(extensions=['meta'])
+    md = markdown.Markdown(extensions=['pymdownx.extra', 'markdown_katex', 'full_yaml_metadata', 'mdx_urlize', 'smarty', 'sane_lists', 'footnotes', 'mdx_breakless_lists', 'pymdownx.emoji'])
     html = md.convert(content)
-    html = htmlmin.minify(html)
+    #html = htmlmin.minify(html)
     print(html)
     print(md.Meta)
     return
