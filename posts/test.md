@@ -8,12 +8,13 @@ tags:
   - tag4
 ---
 
-[TOC]
 
 # My first blogpost
 
 :rocket:
 
+
+!!!TOC!!!
 
 ## How is this made
 
@@ -35,17 +36,23 @@ https://msmetko.xyz
 This is another paragraph.[^1]
 
 
-```
-More code? perhaps?
+More code:
+```sh
 $ echo $SHELL
+```
+
+```python3
+>>> print('omg')
+omg
 ```
 
 [^1]: Yup, it's *monospaced af*
 
 ### Tables?
-| omg | its a table|
-|-----|------------|
-|or is it|---|
+ omg | its a table 
+-----|------------
+ or is it | pls be 
+
 
 ```math
 x^2
