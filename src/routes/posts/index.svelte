@@ -1,14 +1,6 @@
 <script lang="ts" context="module">
 	import type { Load } from '@sveltejs/kit';
 
-	const thirdIdx = [2, 5, 8, 11];
-
-	type Post = {
-		id: number;
-		title: string;
-		content: string;
-	};
-
 	export const load: Load = async ({ fetch }) => {
 		const res = await fetch('/posts.json');
 		const { posts } = await res.json();
@@ -45,7 +37,8 @@
 					<a sveltekit:prefetch href={`/posts/${post.id}`}>
 						<h3>{post.title}</h3>
 					</a>
-					<div bind:innerHTML="{post.content}" contenteditable="false" />
+					<div bind:innerHTML="{post.subtitle}" contenteditable="false" />
+					<div>{post.date}</div>
 				</div>
 			{/each}
 		</div>
