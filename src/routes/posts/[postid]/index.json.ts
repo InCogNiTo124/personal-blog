@@ -16,8 +16,6 @@ export async function get({ params }: Arguments): Promise<Body> {
 
 	const post: Post = await db.prepare('SELECT * FROM posts where id = ?').get(postid);
 
-	post.content = JSON.parse(post.content);
-
 	return {
 		body: {
 			post
