@@ -6,7 +6,39 @@ import markdown
 import sqlite3
 import htmlmin
 from pathlib import Path
+import xml.etree.ElementTree as ET
+from email.utils import formatdate
 
+
+def CDATA(text):
+    return f"<![CDATA[{text}]]>"
+
+def subelement(parent, tag, text):
+    e = ET.SubElement(parent, tag)
+    e.text = text
+    return e
+
+class RssBuilder():
+    def __init__(self):
+        self.root = ET.Element('rss')
+        self.channel = ET.SubElement(self.root, 'channel')
+        title = subelement(self.channel, 'title', "blog.msmetko.xyz")
+        link = subelement(self.channel, 'link', 'https://blog.msmetko.xyz')
+        description = subelement(self.channel, 'description', 'Marijan Smetko writes about programming, Python, math, physics, machine and deep learning, statistics, Linux, music...')
+        language = subelement(self.channel, 'language', 'en-us')
+        generator = subelement(self.channel, 'generator', 'msmetko')
+        docs = subelement(self.channel, 'docs', 'https://www.rssboard.org/rss-specification')
+        managing_editor = subelement(self.channel, 'managingEditor', 'msmetko@msmetko.xyz')
+        webmaster = subelement(self.channel, 'webmaster', 'msmetko@msmetko.xyz')
+        return
+    
+    def write(self, filename):
+        date = formatdate()
+        subelement(self.channel, 'pubDate', date)
+        subelement(self.channel, 'lastBuildDate', date)
+
+        ET.ElementTree(self.root).write(filename, encoding='UTF-8', xml_declaration=True)
+        return
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -37,7 +69,7 @@ def tag_post(db_con, post_id, tag_ids):
     db_con.executemany('INSERT INTO post_tags (post_id, tag_id) VALUES (?, ?)', ((post_id, tag_id) for tag_id in tag_ids))
     return
 
-def write_markdown_to_db(file: Path, db_con):
+def process_markdown(file: Path, db_con, rss_builder):
     content = file.read_text()
     md = markdown.Markdown(
         extensions=[
@@ -70,11 +102,13 @@ def write_markdown_to_db(file: Path, db_con):
 
 
 def main(file_list):
+    rss_builder = RssBuilder()
     db_con = ensure_database()
     with db_con:
         for file in file_list:
-            write_markdown_to_db(file, db_con)
+            process_markdown(file, db_con, rss_builder)
     db_con.close()
+    rss_builder.write('feed.rss')
     return
 
 
