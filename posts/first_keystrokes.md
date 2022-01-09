@@ -37,7 +37,7 @@ At the moment of this writing, I haven't really built it yet, but at the moment 
   - It builds a frontend, written in the Svelte framework by [@amalija-ramljak](https://github.com/amalija-ramljak). It boils down to `yarn install && yarn build` inside a docker container.
   - It compiles all my markdown blog posts into an `sqlite3` database. Interesting!
     - First, it reads the markdown file and converts it to HTML using the `markdown` library using a bunch of extensions, such as `katex` for math rendering, table of contents, emojis, and all sorts of interesting things
-    - While reading a blog post, it also builds an RSS `.xml` file for the RSS clients. While not many people use RSS nowadays, quite a few computers do, such as [dev.to][https://dev.to] which pulls my blogposts and publishes them there. If you are reading this from dev.to now you know why :))
+    - While reading a blog post, it also builds an RSS `.xml` file for the RSS clients. While not many people use RSS nowadays, quite a few computers do, such as [dev.to](https://dev.to) which pulls my blogposts and publishes them there. If you are reading this from dev.to now you know why :))
   - After everything is built, the old deployment is torn down and the new is deployed. This is what you read.
 
 I'd say miraculous but you wouldn't hear me as we're in different parts of the world.
