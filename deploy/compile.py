@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import argparse
 import markdown_katex
 import markdown
@@ -27,8 +29,8 @@ def ensure_database():
     return db_con
 
 
-def insert_post(db_con, html, title, subtitle, date):
-    cursor = db_con.execute('INSERT INTO posts (content, title, subtitle, date) VALUES (?, ?, ?, ?)', (html, title, subtitle, date))
+def insert_post(db_con, html, title, subtitle, date, show):
+    cursor = db_con.execute('INSERT INTO posts (content, title, subtitle, date, show) VALUES (?, ?, ?, ?, ?)', (html, title, subtitle, date, show))
     return cursor.lastrowid
 
 def tag_post(db_con, post_id, tag_ids):
@@ -62,7 +64,7 @@ def write_markdown_to_db(file: Path, db_con):
     html = '<link rel="stylesheet" href="codehilite.css"/>\n' + html
     metadata = md.Meta
     tag_id_list = update_tags(db_con, metadata['tags'])
-    post_id = insert_post(db_con, html, metadata.get('title'), metadata.get('subtitle'), metadata.get('date'))
+    post_id = insert_post(db_con, html, metadata.get('title'), metadata.get('subtitle'), metadata.get('date'), metadata.get('show', True))
     tag_post(db_con, post_id, tag_id_list)
     return
 

@@ -3,7 +3,8 @@ CREATE TABLE IF NOT EXISTS posts (
     date TEXT NOT NULL,
     title TEXT NOT NULL,
     subtitle TEXT NOT NULL,
-    content TEXT NOT NULL
+    content TEXT NOT NULL,
+    show INTEGER DEFAULT 1
 );
 
 CREATE TABLE IF NOT EXISTS tags (
