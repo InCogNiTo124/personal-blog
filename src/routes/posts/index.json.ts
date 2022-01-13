@@ -7,7 +7,7 @@ interface Body {
 }
 
 export async function get(): Promise<Body> {
-  const posts: Array<Post> = db.prepare('select * from posts limit 10').all();
+  const posts: Array<Post> = db.prepare('select * from posts order by date desc limit 10').all();
 
   return {
     body: {
