@@ -46,4 +46,6 @@ I'd say miraculous but you wouldn't hear me as we're in different parts of the w
 
 First and foremost, this is my creative outlet space. I'll write about topics I find interesting: Python, programming in general, Linux, my projects and project ideas, math, machine and deep learning, physics, astronomy, to name a few.  I'll try to write at least once a week, however, if I'm trying to really dive deep into my next blog post topic it may last longer. Or I may fill the time up with lower-quality, "filler", blogposts. IDK ATM
 
-Thank you for your time and see you again!
+Thank you for your time and until next time,
+Marijan Smetko
+QED
