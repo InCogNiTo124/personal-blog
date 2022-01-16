@@ -18,6 +18,8 @@ services:
       - "traefik.docker.network=traefik_default"
     ports:
       - "2357:3000"
+    volumes:
+      - ./db.sqlite3:/blog/db.sqlite3
     networks:
       - traefik_default
 
