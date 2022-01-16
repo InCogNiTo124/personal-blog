@@ -71,7 +71,7 @@ f(x) = \frac{\left(1+c\right)x}{x+c} &\rightarrow \frac{\left(1+\frac1{e^c}\righ
     &= \frac{x\left(e^c+1\right)}{xe^c + 1}\\
 \end{align*}
 ```
-Personal opinion, it's got a nice visual which is easy to remember. The only difference is the parantheses :smile:
+Much better, IMHO. It's got a nice visual which is easy to remember. The only difference is the parantheses :smile:
 
 The animation of the function image
 
@@ -81,7 +81,7 @@ The animation of the function image
 3. Flipping is now disabled
 
 ## How to use it to find a knee?
-Two ways: the intuitive way, the technical way, and the hacky way.
+Three ways: the intuitive way, the technical way, and the hacky way.
 
 ### The intuitive way
 The intuitive way starts with an observation that the function graph is symmetric with respect to the line $`y=1-x`$. Intersecting the graph with the line gives:
@@ -100,6 +100,80 @@ x=\frac{-1+\sqrt{1+e^c}}{e^c}
 ```
 
 ### The technical way
-The second way is way more technical as it involves a lot of calculus. If I define a curvature function $`K(x)=\frac{f''}{\left(1+f'^2\right)^\frac32}`$, I could find an extreme point by $`\frac{d}{dx}K\left(x\right) = 0`$. 
+The second way is way more technical as it involves a lot of calculus. If I define a curvature function $`K(x)=\frac{f''}{\left(1+f'^2\right)^\frac32}`$, I could find an extreme point by $`\frac{d}{dx}K\left(x\right) = 0`$. Before substitution, let's play with the expression first:
+```math
+\begin{align*}
+\frac{d}{dx}K\left(x\right) &= \frac{d}{dx}\left(\frac{f''}{\left(1+f'^2\right)^\frac32}\right) = 0 \\
+\frac{d}{dx}f''\cdot\left(1+f'^2\right)^{\frac32} &= f''\cdot\frac{d}{dx}\left(\left(1+f'^2\right)^{\frac32}\right) \\
+f'''\left(1+f'^2\right)^{\frac32} &= f''\cdot\frac32\left(1+f'^2\right)^{\frac12}\cdot2f'f''\\
+f'''\left(1+f'^2\right) &= 3f''^2f' \\
+\end{align*}
+```
 
-The second feels rather hacky.
+The higher derivatives of $`f(x)`$ are as follows:
+```math
+\begin{align*}
+f(x) &= \frac{x\left(e^c+1\right)}{xe^c+1} \\
+f'(x) = \frac{d}{dx}f(x)&=\frac{e^c+1}{\left(xe^c+1\right)^2} \\
+f''(x) = \frac{d}{dx}f'(x)&=-\frac{2e^c\left(e^c+1\right)}{\left(xe^c+1\right)^3} \\
+f'''(x) = \frac{d}{dx}f''(x)&=\frac{6e^{2c}\left(e^c+1\right)}{\left(xe^c+1\right)^4} \\
+\end{align*}
+```
+Substituting these equations leads to:
+```math
+\begin{align*}
+f'''\left(1+f'^2\right) &= 3f''^2f' & \textit{substitute the derivatives}\\
+\frac{6e^{2c}\left(e^c+1\right)}{\left(xe^c+1\right)^4}\left(1+\left(\frac{e^c+1}{\left(xe^c+1\right)^2}\right)^2\right) &= 3\left(-\frac{2e^c\left(e^c+1\right)}{\left(xe^c+1\right)^3}\right)^2\frac{e^c+1}{\left(xe^c+1\right)^2} & \textit{expand}\\
+\frac{6e^{2c}\left(e^c+1\right)}{\left(xe^c+1\right)^4}\frac{\left(xe^c+1\right)^4 + \left(e^c+1\right)^2}{\left(xe^c+1\right)^4} &= 12\frac{e^{2c}\left(e^c+1\right)^2}{\left(xe^c+1\right)^6}\frac{e^c+1}{\left(xe^c+1\right)^2} & \textit{a lot of things cancel out}\\
+\left(xe^c+1\right)^4+\left(e^c+1\right)^2 &= 2\left(e^c+1\right)^2 \\
+\left(xe^c+1\right)^4 &= 2\left(e^c+1\right)^2 & \textit{take the positive square root} \\
+\left(xe^c+1\right)^2 &= e^c+1 \\
+xe^c+1 &= \sqrt(e^c+1) \\
+x &= \frac{\sqrt{e^c+1}-1}{e^c} \\
+\end{align*}
+```
+which is what we've already obtained in the last step, which is great!
+
+### The hacky way
+The third approach is rather hacky. By invoking a [Mean Value Theorem](https://en.wikipedia.org/wiki/Mean_value_theorem), we know there must be a point on the curve of $`f(x)`$ in which the slope of the tangent is equal to the slope of the secant between $`(0, 0`$ and $`(1, 1)`$. That slope is, obviously, 1. Therefore, finding the derivative and evaluating it with 1 gives:
+```math
+\begin{align*}
+\frac{d}{dx}f(x) &= 1 \\
+\frac{d}{dx}\frac{x\left(e^c+1\right)}{xe^c+1} &= 1 \\
+\frac{e^c+1}{\left(xe^c+1\right)^2} &= 1\\
+\end{align*}
+```
+which, once again, results with $`x = \frac{\sqrt{e^c+1}-1}{e^c}`$.
+
+After three different proofs, I guess it's safe to say that $`x = \frac{\sqrt{e^c+1}-1}{e^c}`$ is a good estimator of the theoretical knee.
+
+## Estimating the c
+After this theoretical derivation, the next problem is fitting the $`c`$ coefficient to the real world data, $`N`$-dimensional vectors $`\textbf{x}`$ and $`\textbf{y}`$. The first, and only insofar, fitting procedure I've come up with is the ordinary least squares: minimization of:
+
+```math
+E = \sum_{i=1}^{N}{\left(y_i - f(x_i)\right)^2} = \sum_{i=1}^{N}{\left(y_i - \frac{x_i\left(e^c+1)\right)}{x_ie^c+1}\right)^2} 
+```
+
+I've implemented a $`c`$-fitting procedure in my project called [knarrow](https://github.com/InCogNiTo124/knarrow.git) in the form of the Newton-Raphson method.
+```math
+\begin{align*}
+\frac{\partial E}{\partial c} &= \frac{\partial}{\partial c}\left(\sum_{i=1}^N{\left(y_i - f(x_i)\right)^2}\right) \\
+&= 2 \sum_{i=1}^N{\left(f(x_i)-y_i\right)\frac{\partial}{\partial c}f(x_i)}\\
+&= 2 \sum_{i=1}^N{\left(y_i-\frac{x_i\left(e^c+1\right)}{x_ie^c+1}\right)}\frac{\left(x_i-1\right)x_i\mathrm{e}^c}{\left(x_i\mathrm{e}^c+1\right)^2}\\
+
+\frac{\partial^2 E}{\partial c^2} &= \frac{\partial^2}{\partial c^2}\left(\sum_{i=1}^N{\left(y_i - f(x_i)\right)^2}\right) \\
+&= 2\sum_{i=1}^N{\left(\frac{\partial}{\partial c}f(x_i)\right)^2} + 2\sum_{i=1}^N{\left(f(x_i) - y_i\right)\frac{\partial^2}{\partial c^2}f(x_i)} \\
+&= 2\sum_{i=1}^N{\left(\frac{x_i\left(e^c+1\right)}{x_ie^c+1}\right)^2 + \left(\frac{x_i\left(e^c+1\right)}{xe^c+1}-y_i\right)\dfrac{\left(x_i-1\right)x_i\mathrm{e}^c\left(x_i\mathrm{e}^c-1\right)}{\left(x_i\mathrm{e}^c+1\right)^3}}\\
+\end{align*}
+```
+
+These equations are then simply converted to an update rule:
+```math
+c_{n+1} \leftarrow c_n - \frac{\frac{\partial E}{\partial c}}{\frac{\partial^2 E}{\partial c^2}}
+```
+which works for any starting value $`c_0`$. This procedure is repeated until a satisfactory level of precision is reached. The resulting shape parameter $`c`$ is then fed into the equation above to get the knee point. Optionally, one can also calculate which of the input x's is the closest to the theoretical knee and denote that particular x as a kne.
+
+## What's next?
+- I would be most happy if I found that $`f'(x)`$ could be written in terms of $`f(x)`$ or $`f''(x)`$ could be written in terms of $`f'(x)`$ in a nice manner (just like the derivative of a sigmoid). However, I am not _that_ good in algebra.
+- Efficient implementation. Currenctly it's implemented as a brain-dead _verbatim_ implementation using only numpy. I'm even calling other functions to calculate the derivatives, which turned out to be rather slow. If I ever accomplished the point above, this would easily follow.
+- Sometimes, the graphs which are in need of the knee/elbow search do not behave like $`1-\frac1x`$ but more like $`1-\frac1{x^2}`$ or $`1-\frac1{\sqrt{x}}`$. It would be great to investigate such possibilities and allow for one more shape parameter.
