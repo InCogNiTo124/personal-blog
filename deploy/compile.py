@@ -182,6 +182,7 @@ def process_markdown(file: Path, db_con, rss_builder):
             "pymdownx.emoji",
             "toc",
             "codehilite",
+            "markdown_captions"
         ],
         extension_configs=dict(
             codehilite={"css_class": "codehilite", "lineno": True},
