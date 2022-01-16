@@ -9,29 +9,55 @@ tags:
 grammarly_score_start: 67
 grammarly_score_end: 84
 ---
-Knee searching is quite important operation. Here I describe the method I personally developed: the so-called **C-method**.
+<meta name=viewport content="width=device-width,initial-scale=1">  
+<meta charset="utf-8"/>
+<script src="https://www.geogebra.org/apps/deployggb.js"></script>
+<script>
+    var params = {
+        "appName": "graphing", 
+        "width": 600, 
+        "height": 600, 
+        "showToolBar": false, 
+        "showAlgebraInput": false, 
+        "showMenuBar": false,
+        "showResetIcon": false,
+        "enableLabelDrags": false,
+        "enableShiftDragZoom": true,
+        "enableRightClick": false,
+        "material_id": "kb8pta79"
+    };
+    var ggbApplet = new GGBApplet(params, true);
+    window.addEventListener("load", function() { 
+        ggbApplet.inject('ggb-element');
+    });
+</script>
+
+Real systems in nature, including computer systems, economy, physics,  etc. may reach a point where the changes of the cost outweigh the performance changes with respect to some tunable parameter. This renders the further changes "not worth it" and sometimes maybe even harmful. Therefore, in many cases it is important to manage tradeoffs between the cost and performance. One particular point of interest in reaching a balanced tradeoff is called **the knee** or **the elbow**. Various definitions of a knee exist but the most popular one defines the knee as a point in which a graph obtains maximum curvature, or equivalently, an osculating circle at that point has the smallest radius.
+
+Knee searching is quite important operation. In this post I'll describe the method I personally developed: the **C-method**.
 
 ## Description
 
-It all started with an observation: many tradeoff curves I've come across with vaguely look like $`\frac1x`$ or $`1-\frac1x`$. The most generic form of this equation is:
+![Figure 1: A typical trade-off curves. A balancing point, a.k.a. a knee, might be found at 30% for the blue curve and below 20% for the red curve.](https://www.ncss.com/wp-content/uploads/2013/01/ROC-Curve-21.png)
+
+It all started with an observation: many tradeoff curves I've come across with vaguely look like $`\frac1x`$ or $`1-\frac1x`$. The most generic form of this equation is therefore:
 
 ```math
 f\left(x\right) = a+ \frac{b}{x+c}
 ```
 
-It has three shape parameters: $`a`$, $`b`$, and $`c`$, and fitting these parameters should be enough. However, I felt that this is way too much degrees of freedom; if I restrict the function with some constraints, I should ideally get the functional form with only one shape parameter. The restrictions I came up with is to anchor the function such that $`f(0) = 0`$ and $`f(1) = 1`$.
+It has three shape parameters: $`a`$, $`b`$, and $`c`$, and fitting these parameters should be enough. However, I felt that this is way too much degrees of freedom; if I restrict the function with some constraints, I should ideally get the functional form with only one shape parameter. Most of my experience was that most of the time the function graphs are anchored to pass through the points $`(0, 0)`$ and $`(1, 1)`$, so I restricted the function such that $`f(0) = 0`$ and $`f(1) = 1`$.
 
 ### Constraint 1
 When $`f(0)=0`$ is fed into the equation form results in a relation:
 ```math
 \begin{align*}
 0 = f(0) &= a+\frac{b}{0+c} =\\
-         &= a+\frac{b}c =\\
-         &\Leftrightarrow =\\
+         &= a+\frac{b}c\\
        b &= -ac \\
 \end{align*}
 ```
-which is cute and simple. Feeding the relation back into the equation results with:
+Feeding the relation back into the equation results with:
 ```math
 \begin{align*}
     f(x) &= a - \frac{ac}{x+c} =\\
@@ -40,14 +66,14 @@ which is cute and simple. Feeding the relation back into the equation results wi
          &= \frac{ax}{x+c}
 \end{align*}
 ```
-Nice and simple
+which is cute and simple.[^1]
 
 ### Constaint 2
 Feeding $`f(1)=1`$ gets us a quick win:
 ```math
 \begin{align*}
-1 = f(1) &= \frac{a}{1+c} \Leftrightarrow \\
-       a &= 1+c \\
+f(1) &= \frac{a}{1+c} = 1\\
+a &= 1+c \\
 \end{align*}
 ```
 and feeding it back results in:
@@ -55,25 +81,28 @@ and feeding it back results in:
 f(x) = \frac{\left(1+c\right)x}{x+c}
 ```
 
-## Analysis
+## Analysis and reparametrization
 The result has several properties:
 1. $`\lim_{c \rightarrow 0} = 1`$
 2. $`\lim_{c \rightarrow +\infty} = x`$
 3. When $`c \lt 0`$, the curve "flips", meaning the curve avoids the unit square.
 
-I decided I did not like this as, while perfectly mathematically correct, it's not match my intuition at all :sweat_smile: to me, ideally $`\lim_{c \rightarrow 0}`$ should go to $`x`$ and $`\lim_{c \rightarrow +\infty}`$ should go to $`x`$. Also, I would like to restrict $`c`$ to all positive reals.
+I decided I did not like this as, while perfectly mathematically correct, it does not match my intuition at all :sweat_smile: to me, ideally $`\lim_{c \rightarrow 0}`$ should go to $`x`$ and $`\lim_{c \rightarrow +\infty}`$ should go to $`x`$. Also, I would like to restrict $`c`$ to all positive reals.
 
-## Better solution
-All of my problems are solved with a following substitution: $`c \rightarrow \frac1{e^c}`$. Mathematicians probably hate me right now. Anyhow, doing the substitution gave me:
+All of my problems are solved with a following substitution: $`c \rightarrow \frac1{e^c}`$.[^2] Doing the substitution gave me:
 ```math
 \begin{align*}
-f(x) = \frac{\left(1+c\right)x}{x+c} &\rightarrow \frac{\left(1+\frac1{e^c}\right)x}{x+\frac1{e^c}} = \\
+f(x) = \frac{\left(1+c\right)x}{x+c} \Rightarrow f(x) &= \frac{\left(1+\frac1{e^c}\right)x}{x+\frac1{e^c}} = \\
     &= \frac{x\left(e^c+1\right)}{xe^c + 1}\\
 \end{align*}
 ```
 Much better, IMHO. It's got a nice visual which is easy to remember. The only difference is the parantheses :smile:
 
-The animation of the function image
+<figure>
+<div id="ggb-element"></div>
+<figcaption>The GeoGebra plugin animating the function as the $`c`$ parameter changes</figcaption>
+</figure>
+
 
 ### Analysis
 1. $`\lim_{c \rightarrow -\infty} = x`$, which was what I wanted
@@ -100,7 +129,7 @@ x=\frac{-1+\sqrt{1+e^c}}{e^c}
 ```
 
 ### The technical way
-The second way is way more technical as it involves a lot of calculus. If I define a curvature function $`K(x)=\frac{f''}{\left(1+f'^2\right)^\frac32}`$, I could find an extreme point by $`\frac{d}{dx}K\left(x\right) = 0`$. Before substitution, let's play with the expression first:
+The second way is way more technical as it involves a lot of calculus. If I define a curvature function $`K(x)=\frac{f''}{\left(1+f'^2\right)^\frac32}`$, I could find an extreme point by setting $`\frac{d}{dx}K\left(x\right) = 0`$. Before substitution, let's play with the expression first:
 ```math
 \begin{align*}
 \frac{d}{dx}K\left(x\right) &= \frac{d}{dx}\left(\frac{f''}{\left(1+f'^2\right)^\frac32}\right) = 0 \\
@@ -122,11 +151,11 @@ f'''(x) = \frac{d}{dx}f''(x)&=\frac{6e^{2c}\left(e^c+1\right)}{\left(xe^c+1\righ
 Substituting these equations leads to:
 ```math
 \begin{align*}
-f'''\left(1+f'^2\right) &= 3f''^2f' & \textit{substitute the derivatives}\\
-\frac{6e^{2c}\left(e^c+1\right)}{\left(xe^c+1\right)^4}\left(1+\left(\frac{e^c+1}{\left(xe^c+1\right)^2}\right)^2\right) &= 3\left(-\frac{2e^c\left(e^c+1\right)}{\left(xe^c+1\right)^3}\right)^2\frac{e^c+1}{\left(xe^c+1\right)^2} & \textit{expand}\\
-\frac{6e^{2c}\left(e^c+1\right)}{\left(xe^c+1\right)^4}\frac{\left(xe^c+1\right)^4 + \left(e^c+1\right)^2}{\left(xe^c+1\right)^4} &= 12\frac{e^{2c}\left(e^c+1\right)^2}{\left(xe^c+1\right)^6}\frac{e^c+1}{\left(xe^c+1\right)^2} & \textit{a lot of things cancel out}\\
+f'''\left(1+f'^2\right) &= 3f''^2f'\\
+\frac{6e^{2c}\left(e^c+1\right)}{\left(xe^c+1\right)^4}\left(1+\left(\frac{e^c+1}{\left(xe^c+1\right)^2}\right)^2\right) &= 3\left(-\frac{2e^c\left(e^c+1\right)}{\left(xe^c+1\right)^3}\right)^2\frac{e^c+1}{\left(xe^c+1\right)^2} \\
+\frac{6e^{2c}\left(e^c+1\right)}{\left(xe^c+1\right)^4}\frac{\left(xe^c+1\right)^4 + \left(e^c+1\right)^2}{\left(xe^c+1\right)^4} &= 12\frac{e^{2c}\left(e^c+1\right)^2}{\left(xe^c+1\right)^6}\frac{e^c+1}{\left(xe^c+1\right)^2} \\
 \left(xe^c+1\right)^4+\left(e^c+1\right)^2 &= 2\left(e^c+1\right)^2 \\
-\left(xe^c+1\right)^4 &= 2\left(e^c+1\right)^2 & \textit{take the positive square root} \\
+\left(xe^c+1\right)^4 &= 2\left(e^c+1\right)^2 \\
 \left(xe^c+1\right)^2 &= e^c+1 \\
 xe^c+1 &= \sqrt(e^c+1) \\
 x &= \frac{\sqrt{e^c+1}-1}{e^c} \\
@@ -135,7 +164,7 @@ x &= \frac{\sqrt{e^c+1}-1}{e^c} \\
 which is what we've already obtained in the last step, which is great!
 
 ### The hacky way
-The third approach is rather hacky. By invoking a [Mean Value Theorem](https://en.wikipedia.org/wiki/Mean_value_theorem), we know there must be a point on the curve of $`f(x)`$ in which the slope of the tangent is equal to the slope of the secant between $`(0, 0`$ and $`(1, 1)`$. That slope is, obviously, 1. Therefore, finding the derivative and evaluating it with 1 gives:
+The third approach is rather hacky. By invoking a [Mean Value Theorem](https://en.wikipedia.org/wiki/Mean_value_theorem), we know there must be a point on the curve of $`f(x)`$ in which the slope of the tangent is equal to the slope of the secant between $`(0, 0)`$ and $`(1, 1)`$. That slope is, obviously, 1. Therefore, finding the derivative and evaluating it with 1 gives:
 ```math
 \begin{align*}
 \frac{d}{dx}f(x) &= 1 \\
@@ -171,9 +200,17 @@ These equations are then simply converted to an update rule:
 ```math
 c_{n+1} \leftarrow c_n - \frac{\frac{\partial E}{\partial c}}{\frac{\partial^2 E}{\partial c^2}}
 ```
-which works for any starting value $`c_0`$. This procedure is repeated until a satisfactory level of precision is reached. The resulting shape parameter $`c`$ is then fed into the equation above to get the knee point. Optionally, one can also calculate which of the input x's is the closest to the theoretical knee and denote that particular x as a kne.
+which works for any starting value $`c_0`$. This procedure is repeated until a satisfactory level of precision is reached. The resulting shape parameter $`c`$ is then fed into the equation above to get the knee point. Optionally, one can also calculate which of the input $`x_i`$'s is the closest to the theoretical knee and denote that particular $`x_i`$ as a knee.
 
 ## What's next?
 - I would be most happy if I found that $`f'(x)`$ could be written in terms of $`f(x)`$ or $`f''(x)`$ could be written in terms of $`f'(x)`$ in a nice manner (just like the derivative of a sigmoid). However, I am not _that_ good in algebra.
 - Efficient implementation. Currenctly it's implemented as a brain-dead _verbatim_ implementation using only numpy. I'm even calling other functions to calculate the derivatives, which turned out to be rather slow. If I ever accomplished the point above, this would easily follow.
 - Sometimes, the graphs which are in need of the knee/elbow search do not behave like $`1-\frac1x`$ but more like $`1-\frac1{x^2}`$ or $`1-\frac1{\sqrt{x}}`$. It would be great to investigate such possibilities and allow for one more shape parameter.
+
+Thank you for your time and until next time,
+Marijan Smetko
+QED
+
+[^1]: However it should be emphasised that this was only possible because the degree of the denominator was 1. Future generalizations which would allow for a different exponent
+
+[^2]: Mathematicians probably hate me right now.
