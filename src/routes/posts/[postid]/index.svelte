@@ -15,9 +15,12 @@
 </script>
 
 <script>
+  import { INLINE_CLASS } from '$lib/utils';
   export let post;
 </script>
 
+<a class={INLINE_CLASS} href="/" sveltekit:prefetch>Back to main page</a>
+
 <h1>{post.title}</h1>
 
-<div bind:innerHTML={post.content} contenteditable="false" />
+<div class="post-content" bind:innerHTML={post.content} contenteditable="false" />
