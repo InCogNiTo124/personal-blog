@@ -1,13 +1,13 @@
 <script>
   import { onMount } from 'svelte';
-  import { LIGHT, storageTheme } from '$lib/utils.js';
-  import { theme } from '$lib/stores/theme_store.js';
+  import { browser } from '$app/env';
+  import { LIGHT, storageTheme } from '$lib/utils';
+  import { theme } from '$lib/stores/theme_store';
   import Nav from '$lib/components/Nav.svelte';
-  import Header from '$lib/components/Header.svelte';
 
-  export let segment;
+  let segment = '';
   onMount(() => {
-    if (process.browser) {
+    if (browser) {
       theme.useLocalStorage();
       theme.subscribe((newval) => {
         document.getElementById('body').setAttribute('class', newval);
@@ -22,7 +22,6 @@
 <div id="app">
   <Nav {segment} />
   <div id="content">
-    <Header />
     <div id="main">
       <slot />
     </div>

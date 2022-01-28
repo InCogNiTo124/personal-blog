@@ -1,5 +1,5 @@
 <script>
-  import { BLANK } from "$lib/utils.js";
+  import { BLANK } from "$lib/utils";
   import Theme from "$lib/components/Theme.svelte";
 
   export let segment;
@@ -9,12 +9,10 @@
   <div id="nav">
     <Theme />
     <hr />
-    <a class={`button ${segment === undefined ? "router-link-active" : ""}`} href=".">About</a>
-    <a class={`button ${segment === "projects" ? "router-link-active" : ""}`} href="/projects">Projects</a>
-    <a class={`button ${segment === "ilpc" ? "router-link-active" : ""}`} href="/ilpc">ILPC</a>
+    <a class={`button ${!segment ? "router-link-active" : ""}`} href=".">Most recent posts</a>
+    <!-- <a class={`button ${segment === "projects" ? "router-link-active" : ""}`} href="/projects">Projects</a>
+    <a class={`button ${segment === "ilpc" ? "router-link-active" : ""}`} href="/ilpc">ILPC</a> -->
   </div>
-  <hr />
-  <a class="button" href="Marijan-Smetko-CV.pdf" target={BLANK}>My CV</a>
 </div>
 
 <style>

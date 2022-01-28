@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import { storageTheme, LIGHT } from '$lib/utils.js';
+import { storageTheme, LIGHT } from '$lib/utils.ts';
 
 const createLocalStore = (key, startValue) => {
   const {
