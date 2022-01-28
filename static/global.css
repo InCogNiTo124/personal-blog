@@ -62,7 +62,8 @@ hr {
   padding: 5px 10px;
 }
 
-a.inline-link {
+a.inline-link,
+.post-content a {
   color: rgb(218, 0, 0);
 }
 
