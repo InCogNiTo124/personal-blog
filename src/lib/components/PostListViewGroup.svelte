@@ -1,16 +1,17 @@
-<script>
+<script lang="ts">
   import { fade } from "svelte/transition";
   import { cubicInOut as cubic } from "svelte/easing";
-  import Section from "$lib/components/Section.svelte";
+  
+  import PostListView from "$lib/components/PostListView.svelte";
   import Loader from "$lib/components/Loader.svelte";
 
-  export let sections = [];
+  export let posts: Post[] = [];
 </script>
 
 <div>
-  {#each sections as section, i}
+  {#each posts as post, i}
     <div in:fade={{ easing: cubic, duration: 700, delay: i * 75 }}>
-      <Section {...section} />
+      <PostListView {post} />
     </div>
   {:else}
     <Loader />
