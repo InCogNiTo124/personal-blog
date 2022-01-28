@@ -9,7 +9,8 @@
   <div id="nav">
     <Theme />
     <hr />
-    <a class={`button ${!segment ? "router-link-active" : ""}`} href=".">Most recent posts</a>
+    <a class={`button ${!segment ? "router-link-active" : ""}`} href="/">Most recent posts</a>
+    <hr />
     <!-- <a class={`button ${segment === "projects" ? "router-link-active" : ""}`} href="/projects">Projects</a>
     <a class={`button ${segment === "ilpc" ? "router-link-active" : ""}`} href="/ilpc">ILPC</a> -->
   </div>
