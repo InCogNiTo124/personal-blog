@@ -15,7 +15,7 @@
   </div>
 </div>
 
-<style type="text/css">
+<style lang="css">
   .loader-parent {
     width: 100%;
     height: 200px;
