@@ -1,8 +1,8 @@
 <script>
   import { fade } from "svelte/transition";
   import { cubicInOut as cubic } from "svelte/easing";
-  import Section from "./Section.svelte";
-  import Loader from "./Loader.svelte";
+  import Section from "$lib/components/Section.svelte";
+  import Loader from "$lib/components/Loader.svelte";
 
   export let sections = [];
 </script>

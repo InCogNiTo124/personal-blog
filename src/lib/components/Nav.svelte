@@ -1,6 +1,6 @@
 <script>
-  import { BLANK } from "./utils.js";
-  import Theme from "./Theme.svelte";
+  import { BLANK } from "$lib/utils.js";
+  import Theme from "$lib/components/Theme.svelte";
 
   export let segment;
 </script>

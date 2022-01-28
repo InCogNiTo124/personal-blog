@@ -1,5 +1,5 @@
 <script>
-  import { BLANK } from "./utils.js";
+  import { BLANK } from "$lib/utils.js";
   export let url, title, data;
 </script>
 

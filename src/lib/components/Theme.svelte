@@ -1,10 +1,10 @@
 <script>
-  import dark from "images/dark.png";
-  import light from "images/light.png";
-  import { onMount } from "svelte";
-  import { theme } from "../stores/theme_store.js";
+  import dark from 'images/dark.png';
+  import light from 'images/light.png';
+  import { onMount } from 'svelte';
+  import { theme } from '$lib/stores/theme_store.js';
 
-  import { LIGHT, DARK, storageTheme } from "./utils.js";
+  import { LIGHT, DARK, storageTheme } from '$lib/utils.js';
   let val = LIGHT;
   onMount(() => {
     val = localStorage.getItem(storageTheme) || LIGHT;
