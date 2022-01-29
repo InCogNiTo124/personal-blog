@@ -1,7 +1,7 @@
 <script>
   import { browser } from '$app/env';
-  import dark from '/images/dark.png';
-  import light from '/images/light.png';
+  import dark from '$lib/images/dark.png';
+  import light from '$lib/images/light.png';
   import { onMount } from 'svelte';
   import { theme } from '$lib/stores/theme_store';
 
