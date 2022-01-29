@@ -21,7 +21,7 @@
 
 <img on:click={toggleTheme} src={val === LIGHT ? dark : light} alt={`${val} icon`} />
 
-<style>
+<style scoped>
   img {
     cursor: pointer;
     height: 2rem;

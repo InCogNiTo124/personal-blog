@@ -38,7 +38,7 @@
   </div>
 </div>
 
-<style>
+<style scoped>
   .section {
     padding: 20px 0;
     margin: 10px 0;

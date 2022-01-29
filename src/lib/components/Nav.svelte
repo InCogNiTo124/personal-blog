@@ -16,7 +16,7 @@
   </div>
 </div>
 
-<style>
+<style scoped>
   a.router-link-active {
     color: rgb(218, 0, 0);
   }

@@ -15,7 +15,7 @@
   </div>
 </div>
 
-<style lang="css">
+<style scoped lang="css">
   .loader-parent {
     width: 100%;
     height: 200px;
