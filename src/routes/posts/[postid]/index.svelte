@@ -19,16 +19,21 @@
   export let post;
 </script>
 
-<a class={INLINE_CLASS} href="/" sveltekit:prefetch>Back to main page</a>
+<div class="post">
+  <a class={INLINE_CLASS} href="/" sveltekit:prefetch>Back to main page</a>
 
-<h1 class="post-title">{post.title}</h1>
+  <div class="post-title">
+    <h1>{post.title}</h1>
+    <p>{post.date}</p>
+  </div>
 
-<div class="post-content" bind:innerHTML={post.content} contenteditable="false" />
+  <div class="post-content" bind:innerHTML={post.content} contenteditable="false" />
 
-<br />
-<hr />
+  <br />
+  <hr />
 
-<a class={INLINE_CLASS} href="/" sveltekit:prefetch>Back to main page</a>
+  <a class={INLINE_CLASS} href="/" sveltekit:prefetch>Back to main page</a>
+</div>
 
 <style scoped lang="css">
   .post-title {
