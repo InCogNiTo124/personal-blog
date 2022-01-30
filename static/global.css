@@ -1,5 +1,18 @@
 @import url('https://fonts.googleapis.com/css?family=Lato');
 
+:root {
+  --main-red: rgba(218, 0, 0, 1);
+  --main-red-01: rgba(218, 0, 0, 0.1);
+
+  --text-color-dark: white;
+  --background-color-dark: #181818;
+
+  --text-color-light: black;
+  --background-color-light: white;
+
+  --caption-grey: rgb(117,117,117);
+}
+
 #svelte {
   width: 100%;
   font-family: Lato, sans-serif;
@@ -8,38 +21,38 @@
 }
 
 .dark-theme {
-  color: white;
-  background-color: #181818;
+  color: var(--text-color-dark);
+  background-color: var(--background-color-dark);
 }
 
 .dark-theme a {
-  color: white;
+  color: var(--text-color-dark);
 }
 
 .dark-theme #top {
-  background-color: #181818;
+  background-color: var(--background-color-dark);
 }
 
 .light-theme {
-  color: black;
-  background-color: white;
+  color: var(--text-color-light);
+  background-color: var(--background-color-light);
 }
 
 .light-theme a {
-  color: black;
+  color: var(--text-color-light);
 }
 
 .light-theme #top {
-  background-color: white;
+  background-color: var(--background-color-light);
 }
 
 a {
   text-decoration: none;
-  color: white;
+  color: var(--text-color-light);
 }
 
 a:hover {
-  color: rgb(218, 0, 0);
+  color: var(--main-red);
 }
 
 p {
@@ -52,10 +65,16 @@ hr {
   height: 1px;
   background-image: linear-gradient(
     to right,
-    rgba(218, 0, 0, 0.1),
-    rgba(218, 0, 0, 1),
-    rgba(218, 0, 0, 0.1)
+    var(--main-red-01),
+    var(--main-red),
+    var(--main-red-01)
   );
+}
+
+.post hr {
+  margin: 15px 0;
+  border-top: 1px solid var(--main-red);
+  background-image: none;
 }
 
 .button {
@@ -64,7 +83,7 @@ hr {
 
 a.inline-link,
 .post-content a {
-  color: rgb(218, 0, 0);
+  color: var(--main-red);
 }
 
 @media screen and (min-width: 650px) {
