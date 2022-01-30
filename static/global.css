@@ -84,6 +84,7 @@ hr {
 a.inline-link,
 .post-content a {
   color: var(--main-red);
+  text-decoration: underline;
 }
 
 @media screen and (min-width: 650px) {
