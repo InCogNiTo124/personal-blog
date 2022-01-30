@@ -52,4 +52,33 @@
   .post-content :global(li) {
     padding: 0.5rem;
   }
+
+  .post-content :global(.toc) {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--main-red);
+    margin-bottom: 1rem;
+  }
+
+  .post-content :global(.toc li) {
+    padding: 0.25rem;
+  }
+
+  :global(figure) {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 1.5rem 0;
+  }
+
+  :global(figure img) {
+    width: 100%;
+  }
+
+  :global(figcaption) {
+    font-size: 0.875rem;
+    color: var(--caption-grey);
+    padding-top: 0.5rem;
+  }
 </style>
