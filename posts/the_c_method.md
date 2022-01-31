@@ -32,6 +32,8 @@ grammarly_score_end: 84
     });
 </script>
 
+!!!TOC!!!
+
 Real systems in nature, including computer systems, economy, physics,  etc. may reach a point where the changes of the cost outweigh the performance changes with respect to some tunable parameter. This renders the further changes "not worth it" and sometimes maybe even harmful. Therefore, in many cases it is important to manage tradeoffs between the cost and performance. One particular point of interest in reaching a balanced tradeoff is called **the knee** or **the elbow**. Various definitions of a knee exist but the most popular one defines the knee as a point in which a graph obtains maximum curvature, or equivalently, an osculating circle at that point has the smallest radius.
 
 Knee searching is quite important operation. In this post I'll describe the method I personally developed: the **C-method**.

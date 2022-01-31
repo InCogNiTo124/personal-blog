@@ -15,9 +15,9 @@
 </script>
 
 <script>
+  import PostFullView from '$lib/components/PostViews/PostFullView.svelte';
+
   export let post;
 </script>
 
-<h1>{post.title}</h1>
-
-<div bind:innerHTML={post.content} contenteditable="false" />
+<PostFullView {post} />
