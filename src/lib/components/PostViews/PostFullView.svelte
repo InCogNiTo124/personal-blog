@@ -1,6 +1,7 @@
 <script>
   import { INLINE_CLASS } from '$lib/utils';
   import DisqusSnippet from './DisqusSnippet.svelte';
+  import Tags from '$lib/components/Filters/Tags.svelte';
   export let post;
 </script>
 
@@ -11,7 +12,7 @@
     <h1>{post.title}</h1>
     <p class="subtitle">{post.subtitle}</p>
     <div class="post-meta">
-      <p>Tags: {post.date}</p>
+      <Tags tags={post.tags} />
       <p>{post.date}</p>
     </div>
   </div>
@@ -49,6 +50,8 @@
     justify-content: space-between;
 
     font-size: 0.875rem;
+
+    padding-top: 1.5rem;
   }
 
   .post-content :global(h2) {
