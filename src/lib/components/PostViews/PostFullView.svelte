@@ -1,5 +1,6 @@
 <script>
   import { INLINE_CLASS } from '$lib/utils';
+  import DisqusSnippet from './DisqusSnippet.svelte';
   export let post;
 </script>
 
@@ -16,6 +17,11 @@
   </div>
 
   <div class="post-content" bind:innerHTML={post.content} contenteditable="false" />
+
+  <br />
+  <br />
+
+  <DisqusSnippet />
 
   <br />
   <hr />
@@ -72,6 +78,16 @@
 
   .post-content :global(.toc li) {
     padding: 0.25rem;
+  }
+
+  .post-content :global(.footnote) {
+    font-size: 0.875rem;
+  }
+
+  @media screen and (min-width: 650px) {
+    .post-content :global(.footnote) {
+      font-size: 1rem;
+    }
   }
 
   :global(figure) {

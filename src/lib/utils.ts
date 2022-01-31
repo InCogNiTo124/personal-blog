@@ -23,4 +23,3 @@ export const storageTheme = "msmetko/theme";
  * Other constants
  */
 export const BIRTHDATE = '1997-04-12';
-
