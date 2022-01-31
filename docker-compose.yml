@@ -19,7 +19,7 @@ services:
     ports:
       - "2357:3000"
     volumes:
-      - ./db.sqlite3:/blog/db.sqlite3
+      - ./db.sqlite3:/blog/db.sqlite3:ro
     networks:
       - traefik_default
 
