@@ -16,6 +16,7 @@
   .tag-group {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
   }
 
   .tag-wrapper {
@@ -25,6 +26,7 @@
     border-radius: 4px;
     padding: 0.25rem;
 
+    margin-bottom: 0.5rem;
   }
   
   .tag-wrapper:hover {
