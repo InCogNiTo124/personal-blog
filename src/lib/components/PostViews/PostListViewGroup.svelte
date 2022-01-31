@@ -2,7 +2,7 @@
   import { fade } from "svelte/transition";
   import { cubicInOut as cubic } from "svelte/easing";
   
-  import PostListView from "$lib/components/PostListView.svelte";
+  import PostListView from "$lib/components/PostViews/PostListView.svelte";
   import Loader from "$lib/components/Loader.svelte";
 
   export let posts: Post[] = [];

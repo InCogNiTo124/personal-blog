@@ -13,7 +13,7 @@
 </script>
 
 <script lang="ts">
-  import PostListViewGroup from '$lib/components/PostListViewGroup.svelte';
+  import PostListViewGroup from '$lib/components/PostViews/PostListViewGroup.svelte';
   export let posts: Array<Post>;
 </script>
 
