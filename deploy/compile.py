@@ -11,6 +11,20 @@ import htmlmin
 import markdown
 import markdown_katex
 
+
+# monkey patching xml.etree.ElementTree
+# https://stackoverflow.com/a/8915039
+ET._original_serialize_xml = ET._serialize_xml
+def _serialize_xml(write, elem, qnames, namespaces, short_empty_elements, **kwargs):
+    if elem.tag == '![CDATA[':
+        write("\n<%s%s]]>\n" % (
+                elem.tag, elem.text))
+        return
+    return ET._original_serialize_xml(
+        write, elem, qnames, namespaces, short_empty_elements=short_empty_elements)
+ET._serialize_xml = ET._serialize['xml'] = _serialize_xml
+
+
 LINK = "https://blog.msmetko.xyz/posts/{}"
 
 
@@ -50,14 +64,15 @@ class Post:
         self._id = value
 
 
-def CDATA(text):
-    return f"<![CDATA[{text}]]>"
-
-
 def subelement(parent, tag, text):
     e = ET.SubElement(parent, tag)
     e.text = text
     return e
+
+
+def CDATA(parent, tag, text):
+    child = subelement(parent, tag, None)
+    return subelement(child, '![CDATA[', text)
 
 
 class RssBuilder:
@@ -82,7 +97,7 @@ class RssBuilder:
         )
         language = subelement(self.channel, "language", "en-us")
         generator = subelement(self.channel, "generator", "msmetko")
-        docs = subelement(self.channel, "docs", "https://www.rssboard.org/rss-specification")
+        docs = subelement(self.channel, "docs", "https://www.rssboard.org/rss-2-0-11")
         managing_editor = subelement(self.channel, "managingEditor", "msmetko@msmetko.xyz")
         atom_link = ET.SubElement(
             self.channel,
@@ -108,13 +123,13 @@ class RssBuilder:
     def add_post(self, post: Post):
         if post.show:
             item = ET.SubElement(self.channel, "item")
-            title = subelement(item, "title", CDATA(post.title))
-            description = subelement(item, "description", CDATA(post.subtitle))
+            title = CDATA(item, "title", post.title)
+            description = CDATA(item, "description", post.subtitle)
             link = subelement(item, "link", LINK.format(post.id))
             author = subelement(item, "author", "msmetko@msmetko.xyz")
             for tag in post.tags:
-                subelement(item, "category", CDATA(tag))
-            pub_date = subelement(item, "pubDate", formatdate(time.mktime(post.date.timetuple())))
+                CDATA(item, "category", tag)
+            pub_date = subelement(item, "pubDate", formatdate(time.mktime(post.date.timetuple())).replace('-', '+'))
             dc_creator = subelement(item, "dc:creator", "Marijan Smetko")
         return
 
@@ -209,7 +224,7 @@ def main(file_list):
             db_con.insert_post(post)
     assert all(getattr(post, 'id', None) is not None for post in post_list)
     rss_builder = RssBuilder(post_list)
-    rss_builder.write("feed.rss")
+    rss_builder.write("static/feed.rss")
     return
 
 

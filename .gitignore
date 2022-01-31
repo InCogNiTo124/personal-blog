@@ -4,5 +4,6 @@ node_modules
 /.svelte-kit
 /package
 .env
-
+*.xml
+*.rss
 db.sqlite3
