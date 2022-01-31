@@ -61,7 +61,7 @@ def subelement(parent, tag, text):
 
 
 class RssBuilder:
-    def __init__(self):
+    def __init__(self, post_list):
         self.build_date = formatdate().replace("-", "+")
         self.root = ET.Element(
             "rss",
@@ -95,6 +95,8 @@ class RssBuilder:
         )
         webmaster = subelement(self.channel, "webmaster", "msmetko@msmetko.xyz")
         subelement(self.channel, "copyright", "CC BY 4.0")
+        for post in post_list:
+            self.add_post(post)
         return
 
     def write(self, filename):
@@ -167,7 +169,7 @@ def ensure_database():
     return Database(db_con)
 
 
-def process_markdown(file: Path, db_con, rss_builder):
+def process_markdown(file: Path):
     content = file.read_text()
     md = markdown.Markdown(
         extensions=[
@@ -195,19 +197,18 @@ def process_markdown(file: Path, db_con, rss_builder):
     # html = htmlmin.minify(html)
     metadata = md.Meta
     post = Post(html, metadata)
-    db_con.insert_post(post)
-    assert post.id is not None
-    rss_builder.add_post(post)
-    return
-
+    #assert post.id is not None
+    return post
 
 def main(file_list):
-    rss_builder = RssBuilder()
     db_con = ensure_database()
+    post_list = sorted((process_markdown(file) for file in file_list),
+                       key=lambda post: post.date)
     with db_con:
-        for file in file_list:
-            process_markdown(file, db_con, rss_builder)
-    # db_con.close()
+        for post in post_list:
+            db_con.insert_post(post)
+    assert all(getattr(post, 'id', None) is not None for post in post_list)
+    rss_builder = RssBuilder(post_list)
     rss_builder.write("feed.rss")
     return
 
