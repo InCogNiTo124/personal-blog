@@ -1,11 +1,12 @@
 <script lang="ts">
-  import { fade } from "svelte/transition";
-  import { cubicInOut as cubic } from "svelte/easing";
-  
-  import PostListView from "$lib/components/PostViews/PostListView.svelte";
-  import Loader from "$lib/components/Loader.svelte";
+  import { fade } from 'svelte/transition';
+  import { cubicInOut as cubic } from 'svelte/easing';
+
+  import PostListView from '$lib/components/PostViews/PostListView.svelte';
+  import Loader from '$lib/components/Loader.svelte';
 
   export let posts: Post[] = [];
+  export let noPosts: boolean;
 </script>
 
 <div>
@@ -14,6 +15,17 @@
       <PostListView {post} />
     </div>
   {:else}
-    <Loader />
+    {#if noPosts}
+      <div class="empty-message">No posts found!</div>
+    {:else}
+      <Loader />
+    {/if}
   {/each}
 </div>
+
+<style>
+  .empty-message {
+    padding-left: 1rem;
+    padding-top: 2rem;
+  }
+</style>
