@@ -2,7 +2,8 @@
   import { browser } from '$app/env';
   import { onMount } from 'svelte';
   import { theme } from '$lib/stores/theme_store';
-  import { BLANK, LIGHT, storageTheme } from '$lib/utils';
+  import { LIGHT, storageTheme } from '$lib/utils';
+  import Tags from '$lib/components/Filters/Tags.svelte';
 
   let themeValue = LIGHT;
 
@@ -28,13 +29,13 @@
     </a>
   </h3>
   <div>
-    <p>
+    <p class="subtitle">
       {@html post.subtitle}
     </p>
-    <br />
     <p class="date">
       {post.date}
     </p>
+    <Tags tags={post.tags} />
   </div>
 </div>
 
@@ -72,5 +73,11 @@
   .date {
     font-style: oblique;
     font-size: 0.875rem;
+
+    padding-bottom: 0.375rem;
+  }
+
+  .section .subtitle {
+    padding-bottom: 0.75rem;
   }
 </style>
