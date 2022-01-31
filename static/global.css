@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Lato');
+@import url("./fonts/font-faces.css");
 
 :root {
   --main-red: rgba(218, 0, 0, 1);
