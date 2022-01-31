@@ -2,7 +2,7 @@
   --main-red: rgba(218, 0, 0, 1);
   --main-red-01: rgba(218, 0, 0, 0.1);
 
-  --text-color-dark: white;
+  --text-color-dark: rgb(217, 217, 217);
   --background-color-dark: #181818;
 
   --text-color-light: black;
