@@ -2,11 +2,11 @@
   import type { Load } from '@sveltejs/kit';
 
   export const load: Load = async ({ fetch, page: {query} }) => {    
-    let res = await fetch(`/posts/${query.get('page') || 1}.json`);
+    let res = await fetch(`/getters/posts/${query.get('page') || 1}.json`);
     const { posts, lastPage } = await res.json();
 
     for (const post of posts) {
-      res = await fetch(`/tags/${post.id}.json`);
+      res = await fetch(`/getters/tags/${post.id}.json`);
       const { tags } = await res.json();
       post.tags = tags;
     }
