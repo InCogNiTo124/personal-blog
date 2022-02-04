@@ -13,7 +13,7 @@
 </script>
 
 <div>
-  {#each posts as post, i}
+  {#each posts as post, i (post.id)}
     <div in:fade={{ easing: cubic, duration: 700, delay: i * 75 }}>
       <PostListView {post} />
     </div>
