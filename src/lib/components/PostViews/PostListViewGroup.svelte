@@ -4,9 +4,12 @@
 
   import PostListView from '$lib/components/PostViews/PostListView.svelte';
   import Loader from '$lib/components/Loader.svelte';
+  import Pager from '../Filters/Pager.svelte';
 
   export let posts: Post[] = [];
   export let noPosts: boolean;
+  export let lastPage: boolean;
+  export let page: number = 1;
 </script>
 
 <div>
@@ -21,6 +24,8 @@
       <Loader />
     {/if}
   {/each}
+
+  <Pager {page} showNext={!lastPage} />
 </div>
 
 <style>
