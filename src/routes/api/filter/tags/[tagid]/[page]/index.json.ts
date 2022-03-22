@@ -54,7 +54,7 @@ export async function get({ params }: Arguments): Promise<Body> {
 
   return {
     body: {
-      posts,
+      posts: posts.length === 11 ? posts.slice(0, -1) : posts,
       lastPage: posts.length < 11,
     },
   };
