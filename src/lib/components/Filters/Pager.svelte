@@ -8,14 +8,14 @@
 <div id="pagination">
   {#if page > 1}
     <div class="wrapper">
-      <a class={INLINE_CLASS} href={`/?page=${page - 1}`}>
+      <a class={INLINE_CLASS} href={`?page=${page - 1}`}>
         <div>Previous</div>
       </a>
     </div>
   {/if}
   {#if showNext}
      <div class="wrapper">
-       <a class={INLINE_CLASS} href={`/?page=${page + 1}`}>
+       <a class={INLINE_CLASS} href={`?page=${page + 1}`}>
          <div>Next</div>
        </a>
      </div>
