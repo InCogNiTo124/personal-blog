@@ -3,18 +3,20 @@ import db from '$lib/database';
 interface Arguments {
   params: {
     tagid: string;
+    page: string;
   };
 }
 
 interface Body {
   body: {
     posts: Post[];
+    lastPage: boolean;
   };
 }
 
 /** @type {import('@sveltejs/kit').RequestHandler} */
 export async function get({ params }: Arguments): Promise<Body> {
-  const { tagid } = params;
+  const { tagid, page } = params;
 
   let where_condition = 'where post_tags.tag_id = ?';
 
@@ -31,9 +33,12 @@ export async function get({ params }: Arguments): Promise<Body> {
             join tags
             on post_tags.tag_id = tags.id
             ${where_condition}
-              and posts.show = 1`
+              and posts.show = 1
+            order by date desc
+            limit 11
+            offset ?`
     )
-    .all(tagid);
+    .all(tagid, 10 * (parseInt(page) - 1));
 
   posts.forEach((post) => {
     post.tags = db
@@ -50,6 +55,7 @@ export async function get({ params }: Arguments): Promise<Body> {
   return {
     body: {
       posts,
+      lastPage: posts.length < 11,
     },
   };
 }
