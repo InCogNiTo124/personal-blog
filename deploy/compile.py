@@ -11,6 +11,20 @@ import htmlmin
 import markdown
 import markdown_katex
 
+
+# monkey patching xml.etree.ElementTree
+# https://stackoverflow.com/a/8915039
+ET._original_serialize_xml = ET._serialize_xml
+def _serialize_xml(write, elem, qnames, namespaces, short_empty_elements, **kwargs):
+    if elem.tag == '![CDATA[':
+        write("\n<%s%s]]>\n" % (
+                elem.tag, elem.text))
+        return
+    return ET._original_serialize_xml(
+        write, elem, qnames, namespaces, short_empty_elements=short_empty_elements)
+ET._serialize_xml = ET._serialize['xml'] = _serialize_xml
+
+
 LINK = "https://blog.msmetko.xyz/posts/{}"
 
 
@@ -50,18 +64,19 @@ class Post:
         self._id = value
 
 
-def CDATA(text):
-    return f"<![CDATA[{text}]]>"
-
-
 def subelement(parent, tag, text):
     e = ET.SubElement(parent, tag)
     e.text = text
     return e
 
 
+def CDATA(parent, tag, text):
+    child = subelement(parent, tag, None)
+    return subelement(child, '![CDATA[', text)
+
+
 class RssBuilder:
-    def __init__(self):
+    def __init__(self, post_list):
         self.build_date = formatdate().replace("-", "+")
         self.root = ET.Element(
             "rss",
@@ -82,7 +97,7 @@ class RssBuilder:
         )
         language = subelement(self.channel, "language", "en-us")
         generator = subelement(self.channel, "generator", "msmetko")
-        docs = subelement(self.channel, "docs", "https://www.rssboard.org/rss-specification")
+        docs = subelement(self.channel, "docs", "https://www.rssboard.org/rss-2-0-11")
         managing_editor = subelement(self.channel, "managingEditor", "msmetko@msmetko.xyz")
         atom_link = ET.SubElement(
             self.channel,
@@ -95,6 +110,8 @@ class RssBuilder:
         )
         webmaster = subelement(self.channel, "webmaster", "msmetko@msmetko.xyz")
         subelement(self.channel, "copyright", "CC BY 4.0")
+        for post in post_list:
+            self.add_post(post)
         return
 
     def write(self, filename):
@@ -106,13 +123,13 @@ class RssBuilder:
     def add_post(self, post: Post):
         if post.show:
             item = ET.SubElement(self.channel, "item")
-            title = subelement(item, "title", CDATA(post.title))
-            description = subelement(item, "description", CDATA(post.subtitle))
+            title = CDATA(item, "title", post.title)
+            description = CDATA(item, "description", post.subtitle)
             link = subelement(item, "link", LINK.format(post.id))
             author = subelement(item, "author", "msmetko@msmetko.xyz")
             for tag in post.tags:
-                subelement(item, "category", CDATA(tag))
-            pub_date = subelement(item, "pubDate", formatdate(time.mktime(post.date.timetuple())))
+                CDATA(item, "category", tag)
+            pub_date = subelement(item, "pubDate", formatdate(time.mktime(post.date.timetuple())).replace('-', '+'))
             dc_creator = subelement(item, "dc:creator", "Marijan Smetko")
         return
 
@@ -167,7 +184,7 @@ def ensure_database():
     return Database(db_con)
 
 
-def process_markdown(file: Path, db_con, rss_builder):
+def process_markdown(file: Path):
     content = file.read_text()
     md = markdown.Markdown(
         extensions=[
@@ -195,20 +212,19 @@ def process_markdown(file: Path, db_con, rss_builder):
     # html = htmlmin.minify(html)
     metadata = md.Meta
     post = Post(html, metadata)
-    db_con.insert_post(post)
-    assert post.id is not None
-    rss_builder.add_post(post)
-    return
-
+    #assert post.id is not None
+    return post
 
 def main(file_list):
-    rss_builder = RssBuilder()
     db_con = ensure_database()
+    post_list = sorted((process_markdown(file) for file in file_list),
+                       key=lambda post: post.date)
     with db_con:
-        for file in file_list:
-            process_markdown(file, db_con, rss_builder)
-    # db_con.close()
-    rss_builder.write("feed.rss")
+        for post in post_list:
+            db_con.insert_post(post)
+    assert all(getattr(post, 'id', None) is not None for post in post_list)
+    rss_builder = RssBuilder(post_list)
+    rss_builder.write("static/feed.rss")
     return
 
 

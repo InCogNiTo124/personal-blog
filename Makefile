@@ -1,5 +1,5 @@
 deploy: sqlite
-	docker-compose up --build -d -t 0
+	docker-compose build --no-cache && docker-compose up -d -t 0
 
 restart: sqlite
 	docker-compose restart -t 0 blog
