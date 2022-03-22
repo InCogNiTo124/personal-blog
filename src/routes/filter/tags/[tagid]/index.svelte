@@ -1,15 +1,16 @@
 <script lang="ts" context="module">
   import type { Load } from '@sveltejs/kit';
 
-  export const load: Load = async ({ page, fetch }) => {
-    let { tagid } = page.params;
+  export const load: Load = async ({ page: { query, params }, fetch }) => {
+    let { tagid } = params;
+    const page = parseInt(query.get('page')) || 1;
 
-    let res = await fetch(`/filter/tags/${tagid}.json`);
-    const { posts } = await res.json();
+    let res = await fetch(`/api/filter/tags/${tagid}/${page}.json`);
+    const { posts, lastPage } = await res.json();
 
     let tagName = tagid;
     if (Number(tagid)) {
-      res = await fetch(`/getters/tag/${tagid}.json`);
+      res = await fetch(`/api/getters/tag/${tagid}.json`);
       ({ tagName } = await res.json());
     }
 
@@ -18,6 +19,8 @@
         posts,
         tagName,
         noPosts: !posts.length,
+        page,
+        lastPage,
       },
     };
   };
@@ -28,13 +31,15 @@
   export let posts: Post[] = [];
   export let tagName: string;
   export let noPosts: boolean;
+  export let page: number;
+  export let lastPage: boolean;
 </script>
 
 <div class="tag-title">
   Filtered by tag: <span>{tagName}</span>
 </div>
 
-<PostListViewGroup {posts} {noPosts} />
+<PostListViewGroup {posts} {noPosts} {page} {lastPage} />
 
 <style scoped>
   div.tag-title {
