@@ -23,7 +23,7 @@
 </script>
 
 <script lang="ts">
-  import PostListViewGroup from '$lib/components/PostViews/PostListViewGroup.svelte';
+  import PostListViewGroup from '$slib/components/PostViews/PostListViewGroup.svelte';
   export let posts: Post[];
   export let page: number;
   export let noPosts: boolean;
