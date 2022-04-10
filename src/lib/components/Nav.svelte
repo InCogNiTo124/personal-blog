@@ -1,6 +1,5 @@
 <script>
-  import { BLANK } from "$lib/utils";
-  import Theme from "$lib/components/Theme.svelte";
+  import Theme from "$slib/components/Theme.svelte";
 
   export let segment;
 </script>
