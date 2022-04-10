@@ -1,8 +1,8 @@
 <script lang="ts" context="module">
   import type { Load } from '@sveltejs/kit';
 
-  export const load: Load = async ({ fetch, page: {query} }) => {    
-    let res = await fetch(`/api/getters/posts/${query.get('page') || 1}.json`);
+  export const load: Load = async ({ fetch, url: { searchParams } }) => {    
+    let res = await fetch(`/api/getters/posts/${searchParams.get('page') || 1}.json`);
     const { posts, lastPage } = await res.json();
 
     for (const post of posts) {
@@ -15,7 +15,7 @@
       props: {
         posts,
         noPosts: !posts.length,
-        page: parseInt(query.get('page')) || 1,
+        page: Number(searchParams.get('page')) || 1,
         lastPage,
       },
     };
