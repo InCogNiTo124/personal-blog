@@ -1,6 +1,7 @@
 {
   "name": "personal-blog",
   "version": "0.0.1",
+  "private": true,
   "license": "UNLICENSED",
   "scripts": {
     "dev": "svelte-kit dev",
