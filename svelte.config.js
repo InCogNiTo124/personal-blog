@@ -21,7 +21,6 @@ const config = {
           allow: [
             './src',
             './static',
-            './submodule',
             './node_modules',
             './.svelte-kit',
           ],

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { SELF } from '$lib/utils';
-  import Tags from '$lib/components/Filters/Tags.svelte';
+  import Tags from '$slib/components/Filters/Tags.svelte';
   import Section from '$slib/components/Sections/Section.svelte';
 
   export let post: Post;
