@@ -13,7 +13,7 @@ const config = {
     vite: () => ({
       resolve: {
         alias: {
-          $slib: path.resolve('/submodule/lib'),
+          $slib: path.resolve('/static/submodule/lib'),
         },
       },
       server: {

@@ -1,0 +1,3 @@
+[submodule "reusables"]
+	path = static/submodule
+	url = git@github.com:InCogNiTo124/personal-reusables.git
