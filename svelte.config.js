@@ -13,7 +13,7 @@ const config = {
     vite: () => ({
       resolve: {
         alias: {
-          $slib: path.resolve('/static/submodule/lib'),
+          $slib: path.resolve('/submodule/lib'),
         },
       },
       server: {
@@ -21,6 +21,7 @@ const config = {
           allow: [
             './src',
             './static',
+            './submodule/lib',
             './node_modules',
             './.svelte-kit',
           ],
