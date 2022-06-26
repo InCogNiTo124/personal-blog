@@ -1,8 +1,8 @@
 <script lang="ts" context="module">
   import type { Load } from '@sveltejs/kit';
 
-  export const load: Load = async ({ page, fetch }) => {
-    let res = await fetch(`/api/getters/post/${page.params.postid}.json`);
+  export const load: Load = async ({ params, fetch }) => {
+    let res = await fetch(`/api/getters/post/${params.postid}.json`);
     const { post } = await res.json();
 
     res = await fetch(`/api/getters/tags/${post.id}.json`);

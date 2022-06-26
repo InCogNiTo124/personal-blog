@@ -1,9 +1,9 @@
 <script lang="ts" context="module">
   import type { Load } from '@sveltejs/kit';
 
-  export const load: Load = async ({ page: { query, params }, fetch }) => {
+  export const load: Load = async ({ params, fetch, url: { searchParams } }) => {
     let { tagid } = params;
-    const page = parseInt(query.get('page')) || 1;
+    const page = parseInt(searchParams.get('page')) || 1;
 
     let res = await fetch(`/api/filter/tags/${tagid}/${page}.json`);
     const { posts, lastPage } = await res.json();

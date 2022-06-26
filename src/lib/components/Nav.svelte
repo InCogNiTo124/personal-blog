@@ -1,8 +1,15 @@
-<script>
-  import { BLANK } from "$lib/utils";
-  import Theme from "$lib/components/Theme.svelte";
+<script lang="ts">
+  import { browser } from '$app/env';
+  import { page } from '$app/stores';
+  import Theme from '$slib/components/Theme.svelte';
 
-  export let segment;
+  let segment = '';
+
+  if (browser) {
+    page.subscribe((newval) => {
+      segment = newval.routeId;
+    });
+  }
 </script>
 
 <div id="top">
