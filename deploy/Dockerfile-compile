@@ -1,5 +1,5 @@
 FROM python:latest
 
 WORKDIR /blog
-RUN ["python3", "-m", "pip", "install", "-qqq", "markdown", "htmlmin", "pygments", "markdown-katex", "markdown-full-yaml-metadata", "markdown-urlize", "pymdown-extensions", "mdx-breakless-lists", "pygments", "markdown-captions"]
+RUN ["python3", "-m", "pip", "install", "-qqq", "markdown", "htmlmin", "pygments", "markdown-katex", "markdown-full-yaml-metadata", "pymdown-extensions", "mdx-breakless-lists", "pygments", "markdown-captions"]  # , "markdown-urlize"
 ENTRYPOINT ["python3", "deploy/compile.py"]

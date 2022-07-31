@@ -191,7 +191,7 @@ def process_markdown(file: Path):
             "pymdownx.extra",
             "markdown_katex",
             "full_yaml_metadata",
-            "mdx_urlize",
+            # "mdx_urlize",
             "smarty",
             "sane_lists",
             "footnotes",
