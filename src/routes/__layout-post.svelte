@@ -1,19 +1,22 @@
 <script>
   import { onMount } from 'svelte';
   import { browser } from '$app/env';
-  import { LIGHT, storageTheme } from '$lib/utils';
-  import { theme } from '$lib/stores/theme_store';
+  import Cookies from 'js-cookie';
+
+  import { LIGHT, COOKIE_KEY_THEME } from '$slib/utils';
+  import { theme } from '$slib/stores/theme_store';
+
   import Header from '$lib/components/Header.svelte';
 
   onMount(() => {
     if (browser) {
-      theme.useLocalStorage();
+      theme.useCookie();
       theme.subscribe((newval) => {
         document.getElementById('body').setAttribute('class', newval);
       });
       document
         .getElementById('body')
-        .setAttribute('class', localStorage.getItem(storageTheme) || LIGHT);
+        .setAttribute('class', Cookies.get(COOKIE_KEY_THEME) || LIGHT);
     }
   });
 </script>
