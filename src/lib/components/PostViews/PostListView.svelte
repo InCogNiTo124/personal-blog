@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { SELF } from '$lib/utils';
+  import { SELF } from '$slib/utils';
   import Tags from '$slib/components/Filters/Tags.svelte';
   import Section from '$slib/components/Sections/Section.svelte';
 

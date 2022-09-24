@@ -1,5 +1,5 @@
 <script>
-  import { INLINE_CLASS } from '$lib/utils';
+  import { INLINE_CLASS } from '$slib/utils';
   import DisqusSnippet from './DisqusSnippet.svelte';
   import Tags from '$slib/components/Filters/Tags.svelte';
   export let post;
