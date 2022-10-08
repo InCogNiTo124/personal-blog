@@ -4,12 +4,17 @@
 
 <style scoped lang="css">
   div {
-    color: var(--main-red);
-    font-size: 2.5rem;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--background-color-light);
+    
     padding: 1rem;
-    text-align: center;
     border-bottom: 1px solid var(--main-red);
+
+    font-size: 2.5rem;
     font-weight: 600;
+    text-align: center;
   }
 
   @media screen and (min-width: 650px) {
