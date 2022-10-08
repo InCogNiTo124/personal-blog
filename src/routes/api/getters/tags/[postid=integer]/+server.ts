@@ -1,12 +1,12 @@
-import db from '$lib/database';
+import db from '$lib/server/database';
+import { json } from '@sveltejs/kit';
 
 interface Body {
-  body: {
-    tags: string[];
-  };
+  tags: string[];
 }
 
-export async function get({ params }): Promise<Body> {
+/** @type {import('./$types').RequestHandler} */
+export function GET({ params }): Response {
   const { postid } = params;
 
   const tags = db
@@ -19,9 +19,9 @@ export async function get({ params }): Promise<Body> {
     )
     .all(postid);
 
-  return {
-    body: {
-      tags,
-    },
+  const responseData: Body = {
+    tags,
   };
+
+  return json(responseData);
 }

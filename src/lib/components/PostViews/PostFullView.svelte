@@ -1,12 +1,13 @@
-<script>
+<script lang="ts">
   import { INLINE_CLASS } from '$slib/utils';
   import DisqusSnippet from './DisqusSnippet.svelte';
   import Tags from '$slib/components/Filters/Tags.svelte';
-  export let post;
+
+  export let post: Post;
 </script>
 
 <div class="post">
-  <a class={INLINE_CLASS} href="/" sveltekit:prefetch>Back to main page</a>
+  <a class={INLINE_CLASS} href="/" data-sveltekit-prefetch>Back to main page</a>
 
   <div class="post-title">
     <h1>{post.title}</h1>
@@ -27,7 +28,7 @@
   <br />
   <hr />
 
-  <a class={INLINE_CLASS} href="/" sveltekit:prefetch>Back to main page</a>
+  <a class={INLINE_CLASS} href="/" data-sveltekit-prefetch>Back to main page</a>
 </div>
 
 <style scoped lang="css">

@@ -1,12 +1,11 @@
 <script>
   import { onMount } from 'svelte';
-  import { browser } from '$app/env';
+  import { browser } from '$app/environment';
   import Cookies from 'js-cookie';
 
   import { LIGHT, COOKIE_KEY_THEME } from '$slib/utils';
   import { theme } from '$slib/stores/theme_store';
 
-  import Nav from '$lib/components/Nav.svelte';
   import Header from '$lib/components/Header.svelte';
 
   onMount(() => {
@@ -24,7 +23,6 @@
 
 <Header />
 <div id="app">
-  <Nav />
   <div id="content">
     <div id="main">
       <slot />

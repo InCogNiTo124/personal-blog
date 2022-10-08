@@ -1,6 +1,5 @@
 import adapter from '@sveltejs/adapter-node';
 import preprocess from 'svelte-preprocess';
-import path from 'path';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -10,24 +9,6 @@ const config = {
 
   kit: {
     adapter: adapter(),
-    vite: () => ({
-      resolve: {
-        alias: {
-          $slib: path.resolve('/submodule/lib'),
-        },
-      },
-      server: {
-        fs: {
-          allow: [
-            './src',
-            './static',
-            './submodule/lib',
-            './node_modules',
-            './.svelte-kit',
-          ],
-        },
-      },
-    }),
   },
 };
 

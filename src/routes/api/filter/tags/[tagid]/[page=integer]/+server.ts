@@ -1,4 +1,5 @@
-import db from '$lib/database';
+import db from '$lib/server/database';
+import { json } from '@sveltejs/kit';
 
 interface Arguments {
   params: {
@@ -8,14 +9,12 @@ interface Arguments {
 }
 
 interface Body {
-  body: {
-    posts: Post[];
-    lastPage: boolean;
-  };
+  posts: Post[];
+  lastPage: boolean;
 }
 
-/** @type {import('@sveltejs/kit').RequestHandler} */
-export async function get({ params }: Arguments): Promise<Body> {
+/** @type {import('./$types').RequestHandler} */
+export function GET({ params }: Arguments): Response {
   const { tagid, page } = params;
 
   let where_condition = 'where post_tags.tag_id = ?';
@@ -24,7 +23,7 @@ export async function get({ params }: Arguments): Promise<Body> {
     where_condition = 'where tags.tag_name = ?';
   }
 
-  const posts: Post[] = await db
+  const posts: Post[] = db
     .prepare(
       `select posts.title, posts.date, posts.subtitle, posts.show, posts.id
             from post_tags 
@@ -52,10 +51,10 @@ export async function get({ params }: Arguments): Promise<Body> {
       .all(post.id);
   });
 
-  return {
-    body: {
-      posts: posts.length === 11 ? posts.slice(0, -1) : posts,
-      lastPage: posts.length < 11,
-    },
+  const responseData: Body = {
+    posts: posts.length === 11 ? posts.slice(0, -1) : posts,
+    lastPage: posts.length < 11,
   };
+
+  return json(responseData);
 }
