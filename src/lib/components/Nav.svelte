@@ -16,7 +16,9 @@
   <div id="nav">
     <Theme />
     <hr />
-    <a class={`button ${segment === '/' ? "router-link-active" : ""}`} href="/">Most recent posts</a>
+    <a class={`button ${segment === '/' ? 'router-link-active' : ''}`} href="/"
+      >Most recent posts</a
+    >
     <hr />
     <!-- <a class={`button ${segment === "projects" ? "router-link-active" : ""}`} href="/projects">Projects</a>
     <a class={`button ${segment === "ilpc" ? "router-link-active" : ""}`} href="/ilpc">ILPC</a> -->
@@ -25,7 +27,7 @@
 
 <style scoped>
   a.router-link-active {
-    color: rgb(218, 0, 0);
+    color: var(--main-red);
   }
 
   #top {
@@ -36,7 +38,7 @@
     position: sticky;
     top: 0px;
     padding: 20px;
-    border-bottom: 1px solid rgb(218, 0, 0);
+    border-bottom: 1px solid var(--main-red);
   }
 
   #nav {
