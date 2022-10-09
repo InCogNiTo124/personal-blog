@@ -7,7 +7,7 @@
     position: sticky;
     top: 0;
     z-index: 5;
-    background: var(--background-color-light);
+    background: var(--background-color);
     
     padding: 1rem;
     border-bottom: 1px solid var(--main-red);
