@@ -1,4 +1,5 @@
 FROM python:3.10.8-alpine3.16
+USER 1000:1000
 
 WORKDIR /blog
 COPY compile.py .
