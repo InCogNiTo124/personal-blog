@@ -7,10 +7,43 @@ on:
   workflow_dispatch:
 
 jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    environment: MAIN_ENV
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v4
+        with:
+          images: ghcr.io/InCogNiTo124/my-markdown-parser
+          tags: |
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: deploy/
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
   deploy:
     name: deploy
     runs-on: ubuntu-latest
     environment: MAIN_ENV
+    needs:
+      - build
+    if: ${{ always() }}
     steps:
       - name: Scaling lamp
         uses: InCogNiTo124/scaling-lamp@master
