@@ -3,6 +3,7 @@ date: 2022-11-27
 title: "[IRAB] Tiago Forte - Building a second brain"
 subtitle: "Note-taking with batteries"
 tags:
+  - irab
   - basb
   - productivity
   - optimization
