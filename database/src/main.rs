@@ -11,7 +11,7 @@ struct TagList {
 
 #[get("/posts/<post_id>/tags")]
 fn post_tags(post_id: u32) -> Json<TagList> {
-    let connection = sqlite::open("../db.sqlite3").unwrap();
+    let connection = sqlite::open("/db.sqlite3").unwrap();
     let query = "SELECT tag_name FROM tags;";
     let mut tags: Vec<String> = vec![];
     // TODO optimize
