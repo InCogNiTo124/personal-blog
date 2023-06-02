@@ -12,16 +12,8 @@ interface Body {
 }
 
 /** @type {import('./$types').RequestHandler} */
-export function GET({ params }: Arguments): Response {
+export async function GET({ params }: Arguments): Promise<Response> {
   const { postid } = params;
-
-  const post: Post = db
-    .prepare('SELECT * FROM posts where id = ?')
-    .get(postid);
-
-  const responseData: Body = {
-    post,
-  };
-
+  const responseData: Body = await fetch(`http://blog-db/posts/${postid}`).then(res => res.json());
   return json(responseData);
 }
