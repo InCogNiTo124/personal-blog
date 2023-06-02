@@ -15,5 +15,7 @@ services:
       dockerfile: Dockerfile
     container_name: blog-db
     restart: always
+    environment:
+      ROCKET_LOG_LEVEL: "debug"
     volumes:
       - "./db.sqlite3:/db.sqlite3:ro"
