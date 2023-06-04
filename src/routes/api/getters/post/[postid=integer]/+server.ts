@@ -1,4 +1,3 @@
-import db from '$lib/server/database';
 import { json } from '@sveltejs/kit';
 
 interface Arguments {
