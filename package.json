@@ -34,7 +34,6 @@
   "type": "module",
   "dependencies": {
     "@sveltejs/adapter-node": "1.0.0",
-    "better-sqlite3": "^8.4.0",
     "js-cookie": "3.0.1",
     "katex": "0.16.4"
   },

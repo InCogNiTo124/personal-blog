@@ -34,6 +34,7 @@ struct PostResponse {
 }
 #[derive(Serialize, Clone)]
 #[serde(crate = "rocket::serde")]
+#[allow(non_snake_case)]
 struct TagResponse {
     tagName: String,
 }
