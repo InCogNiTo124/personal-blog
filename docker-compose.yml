@@ -1,15 +1,10 @@
 version: '3'
 services:
   blog:
-    image: blog
+    image: ghcr.io/incognito124/personal-blog:latest
     container_name: personal-blog
-    build:
-      dockerfile: Dockerfile
-      context: .
     restart: always
   blog-db:
-    build:
-      context: .
-      dockerfile: database/Dockerfile
+    image: ghcr.io/incognito124/personal-blog-db:latest
     container_name: blog-db
     restart: always
