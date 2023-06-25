@@ -37,6 +37,9 @@ jobs:
     needs: changes
     if: ${{ needs.changes.outputs.database == 'true' }}
     steps:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -63,6 +66,7 @@ jobs:
           push: ${{ github.event_name == 'push' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          no-cache: true
 
   build-posts:
     name: Build posts
@@ -70,6 +74,9 @@ jobs:
     needs:
       - build-db-server
     steps:
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
       - name: Checkout repository
         uses: actions/checkout@v3
 
@@ -96,3 +103,4 @@ jobs:
           push: ${{ github.event_name == 'push' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          no-cache: true
