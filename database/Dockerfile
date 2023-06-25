@@ -2,8 +2,8 @@ FROM rust:1.67.0-alpine3.17 AS build
 RUN apk add --no-cache musl-dev
 RUN rustup target add x86_64-unknown-linux-musl
 WORKDIR /usr/src
-COPY database/Cargo.lock database/Cargo.toml ./
-COPY database/src/ ./src
+COPY Cargo.lock Cargo.toml ./
+COPY src/ ./src
 RUN cargo build --release
 
 FROM scratch
