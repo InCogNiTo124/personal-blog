@@ -59,7 +59,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: database/
-          dockerfile: Dockerfile
+          file: Dockerfile
           push: ${{ github.event_name == 'push' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -92,7 +92,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: database/
-          dockerfile: Dockerfile_posts
+          file: Dockerfile_posts
           push: ${{ github.event_name == 'push' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
