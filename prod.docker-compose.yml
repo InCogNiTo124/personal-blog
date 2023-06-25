@@ -14,8 +14,12 @@ services:
       - "3000"
     networks:
       - traefik_default
+      - blog
   blog-db:
     image: ghcr.io/incognito124/personal-blog-db:latest
+    networks:
+      - blog
 networks:
   traefik_default:
     external: true
+  blog:
