@@ -1,10 +1,8 @@
 version: '3'
 services:
   blog:
-    image: ghcr.io/incognito124/personal-blog:latest
     container_name: personal-blog
     restart: always
   blog-db:
-    image: ghcr.io/incognito124/personal-blog-db:latest
     container_name: blog-db
     restart: always
