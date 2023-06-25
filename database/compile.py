@@ -176,8 +176,8 @@ def parse_args():
 
 
 def ensure_database():
-    with sqlite3.connect("/blog/db.sqlite3") as db_con:
-        with open("/blog/schema.sql") as schema:
+    with sqlite3.connect("/db.sqlite3") as db_con:
+        with open("/schema.sql") as schema:
             db_con.executescript(schema.read())
             # TODO: migrations
     # here the changes are commited
@@ -224,7 +224,7 @@ def main(file_list):
             db_con.insert_post(post)
     assert all(getattr(post, 'id', None) is not None for post in post_list)
     rss_builder = RssBuilder(post_list)
-    rss_builder.write("static/feed.rss")
+    rss_builder.write("feed.rss")
     return
 
 
