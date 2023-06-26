@@ -5,5 +5,19 @@
   ],
   "schedule": "on the first day of the week before 12th hour",
   "timezone": "Europe/Zagreb",
-  "groupName": "all"
+  "groupName": "all",
+  "groupSlug": "all",
+  "lockFileMaintenance": {
+    "enabled": true,
+  },
+  "packageRules": [
+    {
+      "groupName": "all dependencies",
+      "groupSlug": "all",
+      "matchPackagePatterns": [
+        "*"
+      ]
+    }
+  ],
+  "separateMajorMinor": true
 }
