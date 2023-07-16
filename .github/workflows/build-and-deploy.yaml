@@ -35,6 +35,7 @@ jobs:
     name: Build frontend
     runs-on: ubuntu-latest
     needs: changes
+    if: ${{ always() }}
     permissions:
       packages: write
     steps:
@@ -73,7 +74,7 @@ jobs:
     name: Build db-server
     runs-on: ubuntu-latest
     needs: changes
-    if: ${{ needs.changes.outputs.database == 'true' }}
+    if: ${{ always() }}
     permissions:
       packages: write
     steps:
@@ -112,6 +113,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - build-db-server
+    if: ${{ alwas() }}
     permissions:
       packages: write
     steps:
