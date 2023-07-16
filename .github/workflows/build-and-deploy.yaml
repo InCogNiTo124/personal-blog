@@ -113,7 +113,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - build-db-server
-    if: ${{ alwas() }}
+    if: ${{ always() }}
     permissions:
       packages: write
     steps:
