@@ -1,6 +1,6 @@
 # personal-blog
 
-My to-be personal blog
+My personal blog
 
 ## Creation
 

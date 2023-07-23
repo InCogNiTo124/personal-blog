@@ -154,5 +154,5 @@ jobs:
       - build-posts
       - build-frontend
     steps:
-      - run: curl ${{ secrets.DEPLOY_WEBHOOK }}
+      - run: curl -X POST ${{ secrets.DEPLOY_WEBHOOK }}
   
