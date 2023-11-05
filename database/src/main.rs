@@ -111,6 +111,7 @@ fn get_tag(tag_id: u32) -> Json<TagResponse> {
 
 #[get("/posts/<page>")]
 fn get_post_list(page: u32) -> Json<Vec<Post>> {
+    let offset = 10 * (page - 1);
     let connection = sqlite::open("/db.sqlite3").unwrap();
     let query = "SELECT * FROM posts WHERE show = 1 ORDER BY date DESC LIMIT 11 OFFSET ?";
     let mut posts: Vec<Post> = vec![];
@@ -118,7 +119,7 @@ fn get_post_list(page: u32) -> Json<Vec<Post>> {
         .prepare(query)
         .unwrap()
         .into_iter()
-        .bind((1, page as i64))
+        .bind((1, offset as i64))
         .unwrap()
         .map(|row| row.unwrap())
     {
