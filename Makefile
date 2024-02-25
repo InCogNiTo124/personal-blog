@@ -1,11 +1,11 @@
-chown: sqlite
-	sudo chown $(shell id -u):$(shell id -g) db.sqlite3
+build: frontend posts blog-db-server
+	docker compose down && docker compose up -d
 
-sqlite: docker-pull
-	docker container run --rm -v $(CURDIR):/blog ghcr.io/incognito124/my-markdown-parser:latest posts/*.md
+frontend:
+	docker image build -f Dockerfile -t ghcr.io/incognito124/personal-blog:latest .
 
-docker-pull: nosqlite
-	docker image pull ghcr.io/incognito124/my-markdown-parser:latest
+blog-db-server:
+	docker image build -f database/Dockerfile -t ghcr.io/incognito124/personal-blog-server:latest database/
 
-nosqlite:
-	rm -f db.sqlite3
+posts: blog-db-server
+	docker image build -f database/Dockerfile_posts -t ghcr.io/incognito124/personal-blog-db:latest .
