@@ -33,7 +33,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@sveltejs/adapter-node": "4.0.1",
+    "@sveltejs/adapter-node": "5.0.1",
     "@sveltejs/vite-plugin-svelte": "^3.0.1",
     "js-cookie": "3.0.5",
     "katex": "0.16.9"
