@@ -1,8 +1,8 @@
-FROM python:3.12.7 AS sqlite
+FROM python:3.13.0 AS sqlite
 COPY database/compile.py database/schema.sql ./posts ./
 RUN python3 -m pip install -qqq\
         markdown\
-        htmlmin\
+        htmlmin2\
         pygments\
         markdown-katex\
         markdown-full-yaml-metadata\
