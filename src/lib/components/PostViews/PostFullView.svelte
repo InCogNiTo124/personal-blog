@@ -3,7 +3,11 @@
   import DisqusSnippet from './DisqusSnippet.svelte';
   import Tags from '$slib/components/Filters/Tags.svelte';
 
-  export let post: Post;
+  interface Props {
+    post: Post;
+  }
+
+  let { post = $bindable() }: Props = $props();
 </script>
 
 <div class="post">
@@ -18,7 +22,7 @@
     </div>
   </div>
 
-  <div class="post-content" bind:innerHTML={post.content} contenteditable="false" />
+  <div class="post-content" bind:innerHTML={post.content} contenteditable="false"></div>
 
   <br />
   <br />

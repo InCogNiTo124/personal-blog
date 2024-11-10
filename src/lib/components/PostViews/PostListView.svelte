@@ -3,19 +3,25 @@
   import Tags from '$slib/components/Filters/Tags.svelte';
   import Section from '$slib/components/Sections/Section.svelte';
 
-  export let post: Post;
+  interface Props {
+    post: Post;
+  }
+
+  let { post }: Props = $props();
 </script>
 
 <Section url={`/posts/${post.id}`} urlTarget={SELF} title={post.title}>
-  <div slot="body">
-    <p class="subtitle">
-      {@html post.subtitle}
-    </p>
-    <p class="date">
-      {post.date}
-    </p>
-    <Tags tags={post.tags} />
-  </div>
+  {#snippet body()}
+    <div >
+      <p class="subtitle">
+        {@html post.subtitle}
+      </p>
+      <p class="date">
+        {post.date}
+      </p>
+      <Tags tags={post.tags} />
+    </div>
+  {/snippet}
 </Section>
 
 <style scoped lang="css">

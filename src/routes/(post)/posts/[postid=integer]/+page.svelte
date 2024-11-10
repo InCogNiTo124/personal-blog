@@ -1,9 +1,13 @@
 <script lang="ts">
   import PostFullView from '$lib/components/PostViews/PostFullView.svelte';
 
-  export let data: {
+  interface Props {
+    data: {
     post: Post;
   };
+  }
+
+  let { data }: Props = $props();
 </script>
 
 <PostFullView {...data} />

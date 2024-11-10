@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { onMount } from 'svelte';
   import { browser } from '$app/environment';
   import Cookies from 'js-cookie';
@@ -7,6 +7,11 @@
   import { theme } from '$slib/stores/theme_store';
 
   import Header from '$lib/components/Header.svelte';
+  interface Props {
+    children?: import('svelte').Snippet;
+  }
+
+  let { children }: Props = $props();
 
   onMount(() => {
     if (browser) {
@@ -19,13 +24,15 @@
         .setAttribute('class', Cookies.get(COOKIE_KEY_THEME) || LIGHT);
     }
   });
+
+  const children_render = $derived(children);
 </script>
 
 <Header />
 <div id="app">
   <div id="content">
     <div id="main">
-      <slot />
+      {@render children_render?.()}
     </div>
   </div>
 </div>

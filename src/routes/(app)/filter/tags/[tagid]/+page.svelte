@@ -1,13 +1,17 @@
 <script lang="ts">
   import PostListViewGroup from '$lib/components/PostViews/PostListViewGroup.svelte';
 
-  export let data: {
+  interface Props {
+    data: {
     posts: Post[];
     tagName: string;
     noPosts: boolean;
     page: number;
     lastPage: boolean;
   };
+  }
+
+  let { data }: Props = $props();
 </script>
 
 <div class="tag-title">

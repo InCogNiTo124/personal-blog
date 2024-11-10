@@ -3,7 +3,7 @@
   import { page } from '$app/stores';
   import Theme from '$slib/components/Theme.svelte';
 
-  let segment = '';
+  let segment = $state('');
 
   if (browser) {
     page.subscribe((newval) => {

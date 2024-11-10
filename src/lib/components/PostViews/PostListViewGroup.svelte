@@ -2,10 +2,19 @@
   import PostListView from '$lib/components/PostViews/PostListView.svelte';
   import SectionGroup from '$slib/components/Sections/SectionGroup.svelte';
 
-  export let posts: Post[] = [];
-  export let noPosts: boolean;
-  export let lastPage: boolean;
-  export let page: number = 1;
+  interface Props {
+    posts?: Post[];
+    noPosts: boolean;
+    lastPage: boolean;
+    page?: number;
+  }
+
+  let {
+    posts = [],
+    noPosts,
+    lastPage,
+    page = 1
+  }: Props = $props();
 </script>
 
 <SectionGroup
@@ -15,5 +24,6 @@
   {page}
   Section={PostListView}
 >
+  <!-- @migration-task: migrate this slot by hand, `empty-list` is an invalid identifier -->
   <p slot="empty-list">No posts found!</p>
 </SectionGroup>
