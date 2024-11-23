@@ -1,4 +1,5 @@
 import { json } from '@sveltejs/kit';
+import { env } from '$env/dynamic/private';
 
 interface Params {
   params: {
@@ -13,7 +14,8 @@ interface Body {
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params: { page } }: Params): Promise<Response> {
-  const posts: Post[] = await fetch(`http://blog-db/posts/${page}`).then(res => res.json());
+  const blog_db = env.BLOG_DB;
+  const posts: Post[] = await fetch(`http://${blog_db}/posts/${page}`).then(res => res.json());
   const responseData: Body = {
     posts: posts.length === 11 ? posts.slice(0, -1) : posts,
     lastPage: posts.length < 11,

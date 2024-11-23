@@ -1,4 +1,6 @@
 import { json } from '@sveltejs/kit';
+import { env } from '$env/dynamic/private';
+
 
 interface Arguments {
   params: {
@@ -15,10 +17,11 @@ interface Body {
 /** @type {import('./$types').RequestHandler} */
 export async function GET({ params }: Arguments): Promise<Response>{
   const { tagid, page } = params;
+  const blog_db = env.BLOG_DB;
 
-  const posts: Post[] = await fetch(`http://blog-db/filter/tags/${tagid}?page=${page}`).then((res) => res.json());
+  const posts: Post[] = await fetch(`http://${blog_db}/filter/tags/${tagid}?page=${page}`).then((res) => res.json());
   for (const post of posts) {
-    post.tags = await fetch(`http://blog-db/posts/${post.id}/tags`).then((res) => res.json()).then((tags) => {console.log(tags.tags); return tags.tags});
+    post.tags = await fetch(`http://${blog_db}/posts/${post.id}/tags`).then((res) => res.json()).then((tags) => {console.log(tags.tags); return tags.tags});
   }
 
   const responseData: Body = {
